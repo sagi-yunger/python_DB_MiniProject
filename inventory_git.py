@@ -48,13 +48,18 @@ def read_from_sql():
     """
     con = set_sql_connect()
     cur = set_sql_curser(con)
+    dct = []
     query = f"SELECT * FROM Inventory"
     data = cur.execute(query).fetchall()
+    columns = [desc[0] for desc in cur.description]
     for row in data:
+        row = dict(zip(columns, row))
+        dct.append(row)
         print(row)
     # print(f"{data}")
     sql_close(con)
-    return data
+    # print(dct)
+    return dct
 
 
 def is_exist(item):
@@ -228,10 +233,10 @@ def sort_by_price_desc():
     return data
 
 
-def go():
+# def go():
     # con = set_sql_connect()
     # cur = set_sql_curser(con)
-    read_from_sql()
+    # read_from_sql()
     # sql_close(con)
     # is_exist('Tent')
     # delete_by_name('cag')
@@ -249,4 +254,4 @@ def go():
 x = datetime.datetime.now() ## store todays full date and time in var x with use of datetime module 
 Today = x.strftime("%m//%d//%Y") ## make var x only date in format MM/DD/YYYY with use of datetime module and store it in Today var 
 
-go()
+# go()
