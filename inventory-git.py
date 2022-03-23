@@ -14,7 +14,7 @@ def set_sql_connect():
     this function connect to a DB with sqlite3 module and then return a connection object.
     """
     con = sqlite3.connect(FILE)
-    print(f"connected")
+    # print(f"connected")
     return con
 
 def set_sql_curser(con):
@@ -26,7 +26,7 @@ def set_sql_curser(con):
     TYPE: sqlite3.connect.curser
     """
     cur = sqlite3.Cursor(con)
-    print(f"curser up")
+    # print(f"curser up")
     return cur
 
 def sql_close(con):
@@ -36,19 +36,24 @@ def sql_close(con):
     TYPE: sqlite3.connect
     """
     con.commit()
-    print(f"commited change in DB")
+    # print(f"commited change in DB")
     con.close()
-    print(f"closed DB")
+    # print(f"closed DB")
 
-def read_from_sql(cur):
+def read_from_sql():
     """
     this function read and retrive all the informtion from the DB
     OUT: Values from DB as LIST
     TYPE: LIST
     """
+    con = set_sql_connect()
+    cur = set_sql_curser(con)
     query = f"SELECT * FROM Inventory"
     data = cur.execute(query).fetchall()
-    print(f"{data}")
+    for row in data:
+        print(row)
+    # print(f"{data}")
+    sql_close(con)
     return data
 
 
@@ -62,7 +67,7 @@ def is_exist(item):
     """
     con = set_sql_connect()
     cur = set_sql_curser(con)
-    query = f"SELECT * FROM Inventory"
+    query = "SELECT * FROM Inventory"
     data = cur.execute(query).fetchall()
     sql_close(con)
     for row in data:
@@ -72,7 +77,7 @@ def is_exist(item):
     print(f"no {item} in db")
     return False
 
-def add_item(Item, catagory , quantity , price , date):
+def add_item(item, catagory , quantity , price , date):
     """
     This function inserts a new item (without number id) into an existing database, once validating that the item doesnt exist.
     commit the change to the DB and close connection.
@@ -82,33 +87,16 @@ def add_item(Item, catagory , quantity , price , date):
     print("in add")
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    if not is_exist(Item): ## is exist validation
+    if not is_exist(item): ## is exist validation
         query = "INSERT INTO Inventory ('Item', 'Category', 'Quantity', 'Price', 'Date') VALUES (?,?,?,?,?)" ## PREPARED STATEMENT
-        cur.execute(query, (Item, catagory , quantity , price , date)) ## PREPARED STATEMENT
-        print(f"New item has been added with values of: {Item, catagory , quantity , price , date}")
+        cur.execute(query, (item, catagory , quantity , price , date)) ## PREPARED STATEMENT
+        print(f"New item has been added with values of: {item, catagory , quantity , price , date}")
     else:
         print("item already exists")
     sql_close(con)
 
-def add_item_with_ID(ID, Item, catagory , quantity , price , date):
-    """
-    This function inserts a new item (with number id) into an existing database, once validating that the item doesnt exist
-    commit the change to the DB and close connection.
-    IN: an objects as values to add as item and check if exist in DB
-    TYPE: str / int / date
-    """
-    print("in add")
-    con = set_sql_connect() ## CREATE CONNECTION
-    cur = set_sql_curser(con) ## CREATE CURSER
-    if not is_exist(Item): ## is exist validation
-        query = "INSERT INTO Inventory ('ID', 'Item', 'Category', 'Quantity', 'Price', 'Date') VALUES (?,?,?,?,?,?)" ## PREPARED STATEMENT
-        cur.execute(query, (ID, Item, catagory , quantity , price , date)) ## PREPARED STATEMENT
-        print(f"New item has been added with values of: {ID, Item, catagory , quantity , price , date}")
-    else:
-        print("item already exists")
-    sql_close(con)
 
-def sql_del(item):
+def delete_by_name(item):
     """	
     delete item from DB by a specific name (deletes a row)
     commit the change to the DB and close connection.
@@ -117,7 +105,6 @@ def sql_del(item):
     """
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    print(type(item))
     query = "DELETE FROM Inventory WHERE Item=?"
     try:
         cur.execute(query, (item,))
@@ -127,7 +114,7 @@ def sql_del(item):
     sql_close(con)
 
 
-def price_change_by_name(Item, price):
+def price_change_by_name(item, price):
     """
     check if item exist and update the price of a specific Item by name.
     commit the change to the DB and close connection.
@@ -136,15 +123,15 @@ def price_change_by_name(Item, price):
     """
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    if is_exist(Item): ## is exist validation
+    if is_exist(item): ## is exist validation
         query = "UPDATE Inventory SET Price=? WHERE Item=?"
-        cur.execute(query, (price, Item))
-        print(f"item {Item} price had been updated with value of: {price}")
+        cur.execute(query, (price, item))
+        print(f"item {item} price had been updated with value of: {price}")
     else:
-        print(f"{Item} does not exist")    
+        print(f"{item} does not exist")    
     sql_close(con)
 
-def quantity_change_by_name(Item, Quantity):
+def quantity_change_by_name(item, quantity):
     """
     check if item exist and update the quantity of a specific Item by name.
     commit the change to the DB and close connection.
@@ -153,15 +140,15 @@ def quantity_change_by_name(Item, Quantity):
     """
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    if is_exist(Item): ## is exist validation
+    if is_exist(item): ## is exist validation
         query = "UPDATE Inventory SET Quantity=? WHERE Item=?"
-        cur.execute(query, (Quantity, Item))
-        print(f"item {Item} Quantity had been updated with value of: {Quantity}")
+        cur.execute(query, (quantity, item))
+        print(f"item {item} Quantity had been updated with value of: {quantity}")
     else:
-        print(f"{Item} does not exist")   
+        print(f"{item} does not exist")   
     sql_close(con)
 
-def category_change_by_name(Item, Category):
+def category_change_by_name(item, category):
     """
     check if item exist and update the Category of a specific Item by name.
     commit the change to the DB and close connection.
@@ -170,15 +157,15 @@ def category_change_by_name(Item, Category):
     """
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    if is_exist(Item): ## is exist validation
+    if is_exist(item): ## is exist validation
         query = "UPDATE Inventory SET Category=? WHERE Item=?"
-        cur.execute(query, (Category, Item))
-        print(f"item {Item} Category had been updated with value of: {Category}")
+        cur.execute(query, (category, item))
+        print(f"item {item} Category had been updated with value of: {category}")
     else:
-        print(f"{Item} does not exist")   
+        print(f"{item} does not exist")   
     sql_close(con)
 
-def change_name(Item, name):
+def change_item_name(item, name):
     """
     check if item exist and change item name.
     commit the change to the DB and close connection.
@@ -187,12 +174,12 @@ def change_name(Item, name):
     """
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    if is_exist(Item): ## is exist validation
+    if is_exist(item): ## is exist validation
         query = "UPDATE Inventory SET Item=? WHERE Item=?"
-        cur.execute(query, (name, Item))
-        print(f"item {Item} name had been changed to: {name}")
+        cur.execute(query, (name, item))
+        print(f"item {item} name had been changed to: {name}")
     else:
-        print(f"{Item} does not exist")   
+        print(f"{item} does not exist")   
     sql_close(con)
 
 def highest_quantity():
@@ -244,23 +231,22 @@ def sort_by_price_desc():
 def go():
     # con = set_sql_connect()
     # cur = set_sql_curser(con)
-    # read_from_sql(cur)
+    read_from_sql()
     # sql_close(con)
-    # exist = is_exist('Tent')
-    # print(exist)
-    # sql_del('cag')
+    # is_exist('Tent')
+    # delete_by_name('cag')
     # add_item( 'bag' , 'Outdoors', '500', '45' , Today)
     # price_change_by_name('bag','30')
     # quantity_change_by_name('dag', '300')
     # category_change_by_name('bag', 'common tool')
-    # change_name('dag', 'bag')
+    # change_item_name('dag', 'bag')
     # highest_quantity()
     # lowest_quantity()
-    sort_by_price_desc()
-    # add_item_with_ID('4', 'lg phone' , 'mobilephones', '1400', '120' , Today)
+    # sort_by_price_desc()
+
 
 
 x = datetime.datetime.now() ## store todays full date and time in var x with use of datetime module 
-Today = x.strftime("%m/%d/%Y") ## make var x only date in format MM/DD/YYYY with use of datetime module and store it in Today var 
+Today = x.strftime("%m//%d//%Y") ## make var x only date in format MM/DD/YYYY with use of datetime module and store it in Today var 
 
 go()
