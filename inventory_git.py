@@ -117,9 +117,11 @@ def delete_by_name(item):
     try:
         cur.execute(query, (item,))
         print(f"item {item} had been deleted")
+        result = f"item {item} had been deleted"
     except IOError as e:
         raise str(e)
     sql_close(con)
+    return result
 
 
 def price_change_by_name(item, price):

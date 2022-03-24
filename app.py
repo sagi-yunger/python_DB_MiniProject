@@ -15,8 +15,11 @@ def index():
     <form action="/inventory" method="get" enctype="text/plain"> 
     <button>Inventory List</button>
     </form>
-    <form action="/add" method="get" enctype="text/plain"> 
+    <form action="/add" method="post" enctype="text/plain"> 
     <button>add to List</button>
+    </form>
+    <form action="/del" method="get" enctype="text/plain"> 
+    <button>delete from List</button>
     </form>
 """
     html+="</ul></body></html>"
@@ -38,6 +41,11 @@ def inventory():
 @app.route('/add')
 def add():
     result = add_item('rabbit', 'pet', '4', '40', Today )
+    return f'{result}'
+
+@app.route('/del')
+def delete():
+    result = delete_by_name('rabbit')
     return f'{result}'
 
 
