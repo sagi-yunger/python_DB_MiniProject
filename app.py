@@ -22,10 +22,10 @@ def index():
     <button>delete from List</button>
     </form>
     <form action="/highest" method="get" enctype="text/plain"> 
-    <button>highest from List</button>
+    <button>highest quantity from List</button>
     </form>
     <form action="/lowest" method="get" enctype="text/plain"> 
-    <button>lowest from List</button>
+    <button>lowest quantity from List</button>
     </form>
     <form action="/sort" method="get" enctype="text/plain"> 
     <button>List sorted by price</button>
@@ -61,7 +61,8 @@ def delete():
 def highest():
     html="<html><body><ul>"  
     high = highest_quantity()
-    html+=f"<li>{high}</li>"
+    for line in high:
+        html+=f"<li>{line}</li>"
     html+="</ul></body></html>"
     return f'{html}'
 
@@ -69,7 +70,8 @@ def highest():
 def lowest():
     html="<html><body><ul>"  
     lwst = lowest_quantity()
-    html+=f"<li>{lwst}</li>"
+    for line in lwst:
+        html+=f"<li>{line}</li>"
     html+="</ul></body></html>"
     return f'{html}'
 
@@ -77,7 +79,8 @@ def lowest():
 def sort_by_price():
     html="<html><body><ul>"  
     srt = sort_by_price_desc()
-    html+=f"<li>{srt}</li>"
+    for line in srt:
+        html+=f"<li>{line}</li>"
     html+="</ul></body></html>"
     return f'{html}'
 
