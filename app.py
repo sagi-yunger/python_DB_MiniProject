@@ -21,6 +21,15 @@ def index():
     <form action="/del" method="get" enctype="text/plain"> 
     <button>delete from List</button>
     </form>
+    <form action="/highest" method="get" enctype="text/plain"> 
+    <button>highest from List</button>
+    </form>
+    <form action="/lowest" method="get" enctype="text/plain"> 
+    <button>lowest from List</button>
+    </form>
+    <form action="/sort" method="get" enctype="text/plain"> 
+    <button>List sorted by price</button>
+    </form>
 """
     html+="</ul></body></html>"
     return f'{html}'
@@ -48,6 +57,29 @@ def delete():
     result = delete_by_name('rabbit')
     return f'{result}'
 
+@app.route('/highest')
+def highest():
+    html="<html><body><ul>"  
+    high = highest_quantity()
+    html+=f"<li>{high}</li>"
+    html+="</ul></body></html>"
+    return f'{html}'
+
+@app.route('/lowest')
+def lowest():
+    html="<html><body><ul>"  
+    lwst = lowest_quantity()
+    html+=f"<li>{lwst}</li>"
+    html+="</ul></body></html>"
+    return f'{html}'
+
+@app.route('/sort')
+def sort_by_price():
+    html="<html><body><ul>"  
+    srt = sort_by_price_desc()
+    html+=f"<li>{srt}</li>"
+    html+="</ul></body></html>"
+    return f'{html}'
 
 if __name__ == '__main__':
     app.run(debug=True)
