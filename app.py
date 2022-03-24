@@ -15,8 +15,20 @@ def index():
     <form action="/inventory" method="get" enctype="text/plain"> 
     <button>Inventory List</button>
     </form>
-    <form action="/add" method="post" enctype="text/plain"> 
+    <form action="/add" method="get" enctype="text/plain"> 
     <button>add to List</button>
+    </form>
+    <form action="/price_change" method="get" enctype="text/plain"> 
+    <button>change item price</button>
+    </form>
+    <form action="/quantity_change" method="get" enctype="text/plain"> 
+    <button>change item quantity</button>
+    </form>
+    <form action="/category_change" method="get" enctype="text/plain"> 
+    <button>change item category</button>
+    </form>
+    <form action="/name_change" method="get" enctype="text/plain"> 
+    <button>change item name</button>
     </form>
     <form action="/del" method="get" enctype="text/plain"> 
     <button>delete from List</button>
@@ -52,6 +64,26 @@ def add():
     result = add_item('rabbit', 'pet', '4', '40', Today )
     return f'{result}'
 
+@app.route('/price_change')
+def price_change():
+    result = price_change_by_name('cat', '32')
+    return f'{result}'
+
+@app.route('/quantity_change')
+def quantity_change():
+    result = quantity_change_by_name('Xbox', '2000')
+    return f'{result}'
+
+@app.route('/category_change')
+def category_change():
+    result = category_change_by_name('Xbox', 'gaming consoles')
+    return f'{result}'
+
+@app.route('/name_change')
+def name_change():
+    result = change_item_name('rabbit', 'duck')
+    return f'{result}'
+    
 @app.route('/del')
 def delete():
     result = delete_by_name('rabbit')

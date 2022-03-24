@@ -137,9 +137,12 @@ def price_change_by_name(item, price):
         query = "UPDATE Inventory SET Price=? WHERE Item=?"
         cur.execute(query, (price, item))
         print(f"item {item} price had been updated with value of: {price}")
+        result = f"item {item} price had been updated with value of: {price}"
     else:
-        print(f"{item} does not exist")    
+        print(f"{item} does not exist")  
+        result = f"{item} does not exist"
     sql_close(con)
+    return result
 
 def quantity_change_by_name(item, quantity):
     """
@@ -154,9 +157,12 @@ def quantity_change_by_name(item, quantity):
         query = "UPDATE Inventory SET Quantity=? WHERE Item=?"
         cur.execute(query, (quantity, item))
         print(f"item {item} Quantity had been updated with value of: {quantity}")
+        result = f"item {item} Quantity had been updated with value of: {quantity}"
     else:
-        print(f"{item} does not exist")   
+        print(f"{item} does not exist") 
+        result = f"{item} does not exist"  
     sql_close(con)
+    return result
 
 def category_change_by_name(item, category):
     """
@@ -171,9 +177,12 @@ def category_change_by_name(item, category):
         query = "UPDATE Inventory SET Category=? WHERE Item=?"
         cur.execute(query, (category, item))
         print(f"item {item} Category had been updated with value of: {category}")
+        result =f"item {item} Category had been updated with value of: {category}" 
     else:
-        print(f"{item} does not exist")   
+        print(f"{item} does not exist")
+        result = f"{item} does not exist"   
     sql_close(con)
+    return result
 
 def change_item_name(item, name):
     """
@@ -184,13 +193,16 @@ def change_item_name(item, name):
     """
     con = set_sql_connect() ## CREATE CONNECTION
     cur = set_sql_curser(con) ## CREATE CURSER
-    if is_exist(item): ## is exist validation
+    if (is_exist(item) and (not is_exist(name))): ## is exist validation
         query = "UPDATE Inventory SET Item=? WHERE Item=?"
         cur.execute(query, (name, item))
         print(f"item {item} name had been changed to: {name}")
+        result = f"item {item} name had been changed to: {name}"
     else:
-        print(f"{item} does not exist")   
+        print(f"{item} does not exist or {name} is exist") 
+        result = f"{item} does not exist or {name} is exist"
     sql_close(con)
+    return result
 
 def highest_quantity():
     """
