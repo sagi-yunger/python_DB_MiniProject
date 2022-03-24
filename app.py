@@ -7,13 +7,15 @@ app = Flask(__name__)
 x = datetime.datetime.now() ## store todays full date and time in var x with use of datetime module 
 Today = x.strftime("%m//%d//%Y") ## make var x only date in format MM/DD/YYYY with use of datetime module and store it in Today var 
 
+x = datetime.datetime.now() ## store todays full date and time in var x with use of datetime module 
+Today = x.strftime("%m//%d//%Y") ## make var x only date in format MM/DD/YYYY with use of datetime module and store it in Today var 
 
 @app.route('/')
 def index():
     html ="""
     <html><body><ul>
     <h1>Hello Devops Class</h1> 
-    <form action="/inventory" method="post" enctype="text/plain"> 
+    <form action="/inventory" method="get" enctype="text/plain"> 
     <button>Inventory List</button>
     </form>
     <form action="/add" method="get" enctype="text/plain"> 
@@ -37,8 +39,13 @@ def inventory():
     return f'{html}'
 
 @app.route('/add')
+<<<<<<< HEAD
+def add():
+    result = add_item('rabbit', 'pet', '4', '40', Today )
+=======
 def add(Today):
     result = add_item('cow','farm animal','100','1000',Today)
+>>>>>>> master
     return f'{result}'
 
 

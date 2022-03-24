@@ -96,9 +96,12 @@ def add_item(item, catagory , quantity , price , date):
         query = "INSERT INTO Inventory ('Item', 'Category', 'Quantity', 'Price', 'Date') VALUES (?,?,?,?,?)" ## PREPARED STATEMENT
         cur.execute(query, (item, catagory , quantity , price , date)) ## PREPARED STATEMENT
         print(f"New item has been added with values of: {item, catagory , quantity , price , date}")
+        result =f"New item has been added with values of: {item, catagory , quantity , price , date}"
     else:
         print("item already exists")
+        result ="item already exists" 
     sql_close(con)
+    return result
 
 
 def delete_by_name(item):
