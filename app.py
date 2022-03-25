@@ -99,15 +99,21 @@ def quantity_change():
         return f'{item}  <br/> <a href="/quantity_change">Back to quantity change</a> <br/> <a href="/">Back home</a>'
     return render_template('quantity_change.html')
 
-# @app.route('/quantity_change') ##page to change quantity of an item
-# def quantity_change():
-#     result = quantity_change_by_name('Xbox', '2000')
-#     return f'{result}'
-
-@app.route('/category_change') ##page to change category of an item
+@app.route('/category_change', methods=['GET','POST']) ##page to change quantity of an item
 def category_change():
-    result = category_change_by_name('Xbox', 'gaming consoles')
-    return f'{result}'
+    if request.method == 'POST':
+        print("test")
+        data = request.form['name']
+        data2 = request.form['category']
+        print(data,data2)
+        item = category_change_by_name(data,data2)
+        return f'{item}  <br/> <a href="/category_change">Back to category change</a> <br/> <a href="/">Back home</a>'
+    return render_template('category_change.html')
+
+# @app.route('/category_change') ##page to change category of an item
+# def category_change():
+#     result = category_change_by_name('Xbox', 'gaming consoles')
+#     return f'{result}'
 
 @app.route('/name_change') ##page to change name of an existing item (the new name most be non existing)
 def name_change():
