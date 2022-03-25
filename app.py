@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask, render_template, request
 from inventory_git import *
 import datetime
 
@@ -61,9 +61,18 @@ def inventory():
     return f'{html}'
 
 @app.route('/add') ##page to add new item
+def loadform():
+    return render_template('add.html')
+
+    # result = add_item('rabbit', 'pet', '4', '40', Today )
+    # return f'{result}'
+@app.route('/add', methods=['POST']) ##page to add new item
 def add():
-    result = add_item('rabbit', 'pet', '4', '40', Today )
-    return f'{result}'
+    data = request.form['insert-new-item']
+    return data
+    
+    # result = add_item('rabbit', 'pet', '4', '40', Today )
+    # return f'{result}'
 
 @app.route('/price_change') ##page to change price of an item
 def price_change():
