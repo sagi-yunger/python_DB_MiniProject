@@ -58,15 +58,9 @@ def inventory():
     dct = read_from_sql()
     for line in dct:
         html+=f"<li>{line}</li>"
-    html+="</ul></body></html>"
+    html+='<br/> <a href="/">Back home</a> <br/> </ul></body></html>'
     return f'{html}'
 
-# @app.route('/add') ##page to add new item
-# def loadform():
-#     return render_template('add.html')
-
-    # result = add_item('rabbit', 'pet', '4', '40', Today )
-    # return f'{result}'
 @app.route('/add', methods=['GET','POST']) ##page to add new item
 def add():
     if request.method == 'POST':
@@ -78,23 +72,37 @@ def add():
         print(data,data2,data3,data4)
         item = add_item(data,data2,data3,data4,Today)
         return f'{item}  <br/> <a href="/add">Back to add</a> <br/> <a href="/">Back home</a>'
-        # return render_template('add.html', data=data)
+             # return render_template('add.html', data=data)
     return render_template('add.html')
-    # data = request.form['insert-new-item']
-    # return 'Hello have fun learning python <br/> <a href="/">Back Home</a>'
-    
-    # result = add_item('rabbit', 'pet', '4', '40', Today )
-    # return f'{result}'
 
-@app.route('/price_change') ##page to change price of an item
+
+
+@app.route('/price_change', methods=['GET','POST']) ##page to change price of an item
 def price_change():
-    result = price_change_by_name('cat', '32')
-    return f'{result}'
+    if request.method == 'POST':
+        print("test")
+        data = request.form['name']
+        data2 = request.form['price']
+        print(data,data2)
+        item = price_change_by_name(data,data2)
+        return f'{item}  <br/> <a href="/price_change">Back to price change</a> <br/> <a href="/">Back home</a>'
+    return render_template('price_change.html')
 
-@app.route('/quantity_change') ##page to change quantity of an item
+@app.route('/quantity_change', methods=['GET','POST']) ##page to change quantity of an item
 def quantity_change():
-    result = quantity_change_by_name('Xbox', '2000')
-    return f'{result}'
+    if request.method == 'POST':
+        print("test")
+        data = request.form['name']
+        data2 = request.form['quantity']
+        print(data,data2)
+        item = quantity_change_by_name(data,data2)
+        return f'{item}  <br/> <a href="/quantity_change">Back to quantity change</a> <br/> <a href="/">Back home</a>'
+    return render_template('quantity_change.html')
+
+# @app.route('/quantity_change') ##page to change quantity of an item
+# def quantity_change():
+#     result = quantity_change_by_name('Xbox', '2000')
+#     return f'{result}'
 
 @app.route('/category_change') ##page to change category of an item
 def category_change():
