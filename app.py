@@ -64,7 +64,6 @@ def inventory():
 @app.route('/add', methods=['GET','POST']) ##page to add new item
 def add():
     if request.method == 'POST':
-        print("test")
         data = request.form['name']
         data2 = request.form['catagory']
         data3 = request.form['quantity']
@@ -80,7 +79,6 @@ def add():
 @app.route('/price_change', methods=['GET','POST']) ##page to change price of an item
 def price_change():
     if request.method == 'POST':
-        print("test")
         data = request.form['name']
         data2 = request.form['price']
         print(data,data2)
@@ -91,7 +89,6 @@ def price_change():
 @app.route('/quantity_change', methods=['GET','POST']) ##page to change quantity of an item
 def quantity_change():
     if request.method == 'POST':
-        print("test")
         data = request.form['name']
         data2 = request.form['quantity']
         print(data,data2)
@@ -102,7 +99,6 @@ def quantity_change():
 @app.route('/category_change', methods=['GET','POST']) ##page to change quantity of an item
 def category_change():
     if request.method == 'POST':
-        print("test")
         data = request.form['name']
         data2 = request.form['category']
         print(data,data2)
@@ -113,7 +109,6 @@ def category_change():
 @app.route('/name_change', methods=['GET','POST']) ##page to change quantity of an item
 def name_change():
     if request.method == 'POST':
-        print("test")
         data = request.form['name']
         data2 = request.form['new_name']
         print(data,data2)
@@ -121,15 +116,14 @@ def name_change():
         return f'{item}  <br/> <a href="/name_change">Back to name change</a> <br/> <a href="/">Back home</a>'
     return render_template('name_change.html')
 
-# @app.route('/name_change') ##page to change name of an existing item (the new name most be non existing)
-# def name_change():
-#     result = change_item_name('rabbit', 'duck')
-#     return f'{result}'
-    
-@app.route('/del') ##page to remove an item by name
-def delete():
-    result = delete_by_name('rabbit')
-    return f'{result}'
+@app.route('/del', methods=['GET','POST']) ##page to change quantity of an item
+def delete_item():
+    if request.method == 'POST':
+        data = request.form['name']
+        print(data)
+        item = delete_by_name(data)
+        return f'{item}  <br/> <a href="/del">Back to delete item</a> <br/> <a href="/">Back home</a>'
+    return render_template('delete_item.html')
 
 @app.route('/highest') ##page to show one or a list of items with the highest quantity from the DB
 
@@ -138,7 +132,7 @@ def highest():
     high = highest_quantity()
     for line in high:
         html+=f"<li>{line}</li>"
-    html+="</ul></body></html>"
+    html+='<br/> <a href="/">Back home</a> <br/> </ul></body></html>'
     return f'{html}'
 
 @app.route('/lowest') ##page to show one or a list of items with the lowest quantity from the DB
@@ -147,7 +141,7 @@ def lowest():
     lwst = lowest_quantity()
     for line in lwst:
         html+=f"<li>{line}</li>"
-    html+="</ul></body></html>"
+    html+='<br/> <a href="/">Back home</a> <br/> </ul></body></html>'
     return f'{html}'
 
 @app.route('/sort') ##page to show list from the DB sorted by price in a descending order
@@ -156,7 +150,7 @@ def sort_by_price():
     srt = sort_by_price_desc() 
     for line in srt:
         html+=f"<li>{line}</li>"
-    html+="</ul></body></html>"
+    html+='<br/> <a href="/">Back home</a> <br/> </ul></body></html>'
     return f'{html}'
 
 if __name__ == '__main__':
