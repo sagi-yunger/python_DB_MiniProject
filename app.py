@@ -1,4 +1,5 @@
 
+import re
 from flask import Flask, render_template, request
 from inventory_git import *
 import datetime
@@ -60,16 +61,27 @@ def inventory():
     html+="</ul></body></html>"
     return f'{html}'
 
-@app.route('/add') ##page to add new item
-def loadform():
-    return render_template('add.html')
+# @app.route('/add') ##page to add new item
+# def loadform():
+#     return render_template('add.html')
 
     # result = add_item('rabbit', 'pet', '4', '40', Today )
     # return f'{result}'
-@app.route('/add', methods=['POST']) ##page to add new item
+@app.route('/add', methods=['GET','POST']) ##page to add new item
 def add():
-    data = request.form['insert-new-item']
-    return 'Hello have fun learning python <br/> <a href="/">Back Home</a>'
+    if request.method == 'POST':
+        print("test")
+        data = request.form['name']
+        data2 = request.form['catagory']
+        data3 = request.form['quantity']
+        data4 = request.form['price']
+        print(data,data2,data3,data4)
+        item = add_item(data,data2,data3,data4,Today)
+        return f'{item}  <br/> <a href="/add">Back to add</a> <br/> <a href="/">Back home</a>'
+        # return render_template('add.html', data=data)
+    return render_template('add.html')
+    # data = request.form['insert-new-item']
+    # return 'Hello have fun learning python <br/> <a href="/">Back Home</a>'
     
     # result = add_item('rabbit', 'pet', '4', '40', Today )
     # return f'{result}'
