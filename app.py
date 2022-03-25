@@ -69,7 +69,7 @@ def loadform():
 @app.route('/add', methods=['POST']) ##page to add new item
 def add():
     data = request.form['insert-new-item']
-    return data
+    return 'Hello have fun learning python <br/> <a href="/">Back Home</a>'
     
     # result = add_item('rabbit', 'pet', '4', '40', Today )
     # return f'{result}'
