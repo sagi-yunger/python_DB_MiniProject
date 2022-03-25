@@ -13,7 +13,7 @@ Today = x.strftime("%m//%d//%Y") ## make var x only date in format MM/DD/YYYY wi
 def index():
     html ="""
     <html><body><ul>
-    <h1>Hello Devops Class</h1> 
+    <h1>Hello Devops Class</h1> <hr>
     <form action="/inventory" method="get" enctype="text/plain"> 
     <button>Inventory List</button>
     </form>
@@ -64,64 +64,43 @@ def inventory():
 @app.route('/add', methods=['GET','POST']) ##page to add new item
 def add():
     if request.method == 'POST':
-        data = request.form['name']
-        data2 = request.form['catagory']
-        data3 = request.form['quantity']
-        data4 = request.form['price']
-        print(data,data2,data3,data4)
-        item = add_item(data,data2,data3,data4,Today)
+        item = add_item(request.form['name'], request.form['catagory'], request.form['quantity'], request.form['price'],Today)
         return f'{item}  <br/> <a href="/add">Back to add</a> <br/> <a href="/">Back home</a>'
              # return render_template('add.html', data=data)
     return render_template('add.html')
 
-
-
 @app.route('/price_change', methods=['GET','POST']) ##page to change price of an item
 def price_change():
     if request.method == 'POST':
-        data = request.form['name']
-        data2 = request.form['price']
-        print(data,data2)
-        item = price_change_by_name(data,data2)
+        item = price_change_by_name(request.form['name'], request.form['price'])
         return f'{item}  <br/> <a href="/price_change">Back to price change</a> <br/> <a href="/">Back home</a>'
     return render_template('price_change.html')
 
 @app.route('/quantity_change', methods=['GET','POST']) ##page to change quantity of an item
 def quantity_change():
     if request.method == 'POST':
-        data = request.form['name']
-        data2 = request.form['quantity']
-        print(data,data2)
-        item = quantity_change_by_name(data,data2)
+        item = quantity_change_by_name(request.form['name'], request.form['quantity'])
         return f'{item}  <br/> <a href="/quantity_change">Back to quantity change</a> <br/> <a href="/">Back home</a>'
     return render_template('quantity_change.html')
 
 @app.route('/category_change', methods=['GET','POST']) ##page to change quantity of an item
 def category_change():
     if request.method == 'POST':
-        data = request.form['name']
-        data2 = request.form['category']
-        print(data,data2)
-        item = category_change_by_name(data,data2)
+        item = category_change_by_name(request.form['name'], request.form['category'])
         return f'{item}  <br/> <a href="/category_change">Back to category change</a> <br/> <a href="/">Back home</a>'
     return render_template('category_change.html')
 
 @app.route('/name_change', methods=['GET','POST']) ##page to change quantity of an item
 def name_change():
     if request.method == 'POST':
-        data = request.form['name']
-        data2 = request.form['new_name']
-        print(data,data2)
-        item = change_item_name(data,data2)
+        item = change_item_name(request.form['name'], request.form['new_name'])
         return f'{item}  <br/> <a href="/name_change">Back to name change</a> <br/> <a href="/">Back home</a>'
     return render_template('name_change.html')
 
 @app.route('/del', methods=['GET','POST']) ##page to change quantity of an item
 def delete_item():
     if request.method == 'POST':
-        data = request.form['name']
-        print(data)
-        item = delete_by_name(data)
+        item = delete_by_name(request.form['name'])
         return f'{item}  <br/> <a href="/del">Back to delete item</a> <br/> <a href="/">Back home</a>'
     return render_template('delete_item.html')
 
