@@ -1,6 +1,6 @@
 
-import re
-from flask import Flask, render_template, request
+
+from flask import Flask, render_template, request, jsonify
 from inventory_git import *
 import datetime
 
@@ -16,6 +16,9 @@ def index():
     <h1>Hello Devops Class</h1> <hr>
     <form action="/inventory" method="get" enctype="text/plain"> 
     <button>Inventory List</button>
+    </form>
+    <form action="/inventory_json" method="get" enctype="text/plain"> 
+    <button>Inventory in json</button>
     </form>
     <form action="/add" method="get" enctype="text/plain"> 
     <button>add to List</button>
@@ -60,6 +63,11 @@ def inventory():
         html+=f"<li>{line}</li>"
     html+='<br/> <a href="/">Back home</a> <br/> </ul></body></html>'
     return f'{html}'
+
+@app.route('/inventory_json') ##page to show list from the DB in json format
+def inventory_json():
+    dct = jsonify(read_from_sql())
+    return dct
 
 @app.route('/add', methods=['GET','POST']) ##page to add new item
 def add():
